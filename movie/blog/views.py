@@ -1,5 +1,5 @@
-from django.shortcuts import render , redirect
-from .models import Movies
+from django.shortcuts import render , redirect, get_object_or_404
+from .models import Movies,Staff
 from django.core.paginator import Paginator
 import requests
 # Create your views here.
@@ -13,6 +13,11 @@ def home(request):
     page= request.GET.get('page')
     paginated_blogs= paginator.get_page(page)
     return render(request, 'home.html', {'blogs': paginated_blogs})
+
+""" def detail(request, id): 
+    blog = get_object_or_404(Movies, pk = id) 
+    staffs = Staff.objects.filter(number=id)
+    return render(request, 'detail.html', {'blog': blog,'staffs':staffs}) """
 
 
 def init_db(request):
@@ -32,14 +37,18 @@ def init_db(request):
         new_movie.release_date = movie['release_date']
         new_movie.rate = movie['rate']
         new_movie.summary = movie['summary']
+        
+        new_movie.save()
 
         for stf in movie['staff']:
-            new_stf = Movies.Staff()
+            new_stf = Staff()
+            new_stf.number = new_movie
             new_stf.name = stf['name']
             new_stf.role = stf['role']
             new_stf.image_url = stf['image_url']
+
+            new_stf.save()
         
-        new_movie.save()
 
         
     return redirect('home')
