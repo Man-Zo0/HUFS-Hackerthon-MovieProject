@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block content %}
+    <head>
+      <style>
+        #poster {
+          margin-right: 20px;
+        }
+        * {
+          text-align: left;
+        }
+        .container {
+          display: block
+          margin: 0 auto
+        }
+        #detail {
+          width: 500px;
+        }
+        .title_eng{
+          font-size: medium;
+        }
+        #information {
+          display: flex;
+        }
+        .staff {
+          display: flex;
+        }
+        #each-staff {
+          margin-right: 20px;
+        }
+        #each-staff > p {
+          margin: 0
+        }
+        .name > p {
+          font-size: 30px
+        }
+      </style>
+    </head>
+    <div id="total">
+      <h1>{{blog.title}}</h1>
+      <h3>{{blog.title_kor}} <span class="title_eng">{{blog.title_eng}}</span> </h3>
+      <div id='information'>
+        <img id='poster' src="{{blog.poster_url}}" width=280 />
+        <div id="detail">
+          <span>관람객 평점 {{blog.rating_aud}}</span><br>
+          <span>평론가 평점 {{blog.rating_cri}}</span><br>
+          <span>네티즌 평점 {{blog.rating_net}}</span><br>
+          <br>
+          <span>장르 {{blog.genre}}</span><br>
+          <span>상영 시간 {{blog.showtimes}}</span><br>
+          <span>상영 등급 {{blog.rate}}</span><br>
+          <span>개봉일 {{blog.release_date}}</span><br>
+          <br>
+          <p>줄거리</p>
+          <p>{{blog.summary}}</p>  
+        </div>
+      </div>
+      <br>
+      <div class="name">
+        <p>인물 정보</p>
+      </div>
+      <div class='staff'>
+        {% for staff in staffs %}
+        <div id="each-staff">
+          <img src="{{staff.image_url}}" />
+          <p>{{staff.role}}</p>
+          <p>{{staff.name}}</p>
+        </div>
+        {% endfor %}
+      </div>
+      <hr />
+  
+    </div>
+
+        <!-- 여기부터 코멘트 -->
+        <div>
+          {% if question.comment_set.count > 0 %}
+            {% for comment in question.comment_set.all %}
+              <span>{{ comment.content }}</span>
+              <span>
+                글쓴이: {{ comment.author }}
+            </span>
+            {% endfor %}
+          {% endif %}
+        </div>
+        <div>
+          <div>
+            {% for comment in comments %}
+            {{ comment.comment_user }}
+            {{ comment.comment_body }}
+            {{ comment.comment_date }}
+            <br>
+            {% endfor %}
+          </div>
+          
+            <form method="post" action="{% url 'blog:create_comment' %}">
+                {% csrf_token %}
+                <div>
+                    <label for="content">댓글내용</label>
+                    <input name="movie_id" value="{{blog.id}}" hidden>
+                    <textarea name="comment_body">{{ form.content.value|default_if_none:'' }}</textarea>
+                </div>
+                <button type="submit">저장하기</button>
+            </form>
+        </div>
+        </div>
+    {% endblock %}

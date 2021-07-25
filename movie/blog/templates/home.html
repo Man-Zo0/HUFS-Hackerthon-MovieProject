@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
     {% block content %}
     
     <div>
         {% for blog in blogs%}
         <div>
-          <h3>{{ blog.title_kor }}</h3>
+          <h3><a href="{%url 'blog:detail' blog.id %}">{{ blog.title_kor }}</a></h3>
           <img src="{{blog.poster_url}}" alt="">
+              {{ blog.body }}
         </div>
         {%endfor %}
     </div>
