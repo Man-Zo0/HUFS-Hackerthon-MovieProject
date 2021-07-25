@@ -1,29 +1,43 @@
 {% extends 'base.html' %}
-    {% block content %}
-    
-    <div>
-        {% for blog in blogs%}
-        <div>
-          <h3>{{ blog.title_kor }}</h3>
-          <img src="{{blog.poster_url}}" alt="">
-        </div>
-        {%endfor %}
+{% load static %}
+{% block content %}
+  <div>
+    <img src = "{% static 'home_image.PNG' %}" alt = "" width="1114px">
+
+    <div class="new-movie">
+      <h4 style="text-align: left; margin-top: 50px; margin-left: 30px; margin-bottom: 20px;">NEW & UPCOMING MOVIES</h4>
+
+      <div class="row">
+          {% for blog in blogs%}
+          <div class="col-md-3">
+            <img src="{{blog.poster_url}}" alt="">
+                {{ blog.body }}
+            <br>
+            <h6 style="margin-top: 30px;"><a href="{%url 'blog:detail' blog.id %}">{{ blog.title_kor }}</a></h6>
+          </div>
+          {% endfor %}
+      </div>
     </div>
     
     <br/>
 
-    <div class="paginator">
+    <div class="paginator" style="margin-top: 20px;">
       {% if blogs.has_previous %}
-      <a href="?page=1">처음</a>
-      <a href="?page={{blogs.previous_page_number}}">이전</a>
+     
+      <a href="?page=1"  style="margin-right: 5px;">처음</a>
+      <a href="?page={{blogs.previous_page_number}}"  style="margin-right: 10px;">이전</a>
       {% endif %}
-      <span>{{blogs.number}}</span>
-      <span>of</span>
       <span>{{blogs.paginator.num_pages}}</span>
+      <span>페이지 중에</span>
+      <span>{{blogs.number}}</span>
+      <span>페이지 입니다</span>
       {% if blogs.has_next %}
-      <a href="?page={{blogs.next_page_number}}">다음</a>
-      <a href="?page={{blogs.paginator.num_pages}}">마지막</a>
+      <a href="?page={{blogs.next_page_number}}"  style="margin-left: 10px;">다음</a>
+      <a href="?page={{blogs.paginator.num_pages}}" style="margin-left: 5px;">마지막</a>
+    
       {% endif %}
     </div>
+    <img src = "{% static 'home_image_2.PNG' %}" alt = "" width="1114px" style="margin-top: 50px;">
+  </div>
 
-    {% endblock %}
+{% endblock %}
