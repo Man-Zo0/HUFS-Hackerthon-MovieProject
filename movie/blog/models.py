@@ -28,3 +28,4 @@ class Comment(models.Model):
     comment_date = models.DateTimeField()
     class Meta:
         ordering = ['comment_date']
+
