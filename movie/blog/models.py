@@ -13,7 +13,9 @@ class Movies(models.Model):
     release_date= models.CharField(max_length=200)
     rate= models.CharField(max_length=200)
     summary= models.CharField(max_length=200)
-    class Staff(models.Model):
-        name= models.CharField(max_length=200)
-        role= models.CharField(max_length=200)
-        image_url= models.CharField(max_length=500)
+
+class Staff(models.Model):
+    number = models.ForeignKey(Movies, null=True, on_delete=models.CASCADE)
+    name= models.CharField(max_length=200)
+    role= models.CharField(max_length=200)
+    image_url= models.CharField(max_length=500)
