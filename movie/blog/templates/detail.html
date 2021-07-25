@@ -2,7 +2,12 @@
 {% load static %}
     {% block content %}
     <head>
-      <style>
+      <style type="text/css">
+        textarea { 
+          resize: none;
+          width: 80%;
+        }
+
         #poster {
           margin-right: 20px;
         }
@@ -33,6 +38,11 @@
         }
         .name > p {
           font-size: 30px
+        }
+        #maketext {
+          width: 100%;
+          display: flex;
+          justify-content: flex-start;
         }
       </style>
     </head>
@@ -68,7 +78,7 @@
         </div>
         {% endfor %}
       </div>
-      <hr />
+      <hr/>
   
     </div>
 
@@ -86,21 +96,23 @@
         <div>
           <div>
             {% for comment in comments %}
-            {{ comment.comment_user }}
-            {{ comment.comment_body }}
-            {{ comment.comment_date }}
-            <br>
+            <h5>{{ comment.comment_user }}</h5>
+            <h5>{{ comment.comment_body }}</h5>
+            <h6>{{ comment.comment_date }} </h6><hr/>
             {% endfor %}
           </div>
           
             <form method="post" action="{% url 'blog:create_comment' %}">
                 {% csrf_token %}
                 <div>
-                    <label for="content">댓글내용</label>
-                    <input name="movie_id" value="{{blog.id}}" hidden>
-                    <textarea name="comment_body">{{ form.content.value|default_if_none:'' }}</textarea>
+                    <label for="content">한 줄 평가</label><br>
+                    <div id="maketext">
+                      <input name="movie_id" value="{{blog.id}}" hidden>
+                      <textarea name="comment_body" width=1000>{{ form.content.value|default_if_none:'' }}</textarea>
+                      <button type="submit">저장하기</button>
+                    </div>
                 </div>
-                <button type="submit">저장하기</button>
+                
             </form>
         </div>
         </div>

@@ -7,11 +7,12 @@ from django.utils import timezone
 from requests.api import get
 # Create your views here.
 def home(request):
-    init_db(request)
     blogs= Movies.objects.all()
     query= request.GET.get('query')
     if query:
         blogs= Movies.objects.filter(title_kor__icontains=query)
+        return render(request, 'home.html', {'blogs': blogs})
+
 
     paginator= Paginator(blogs, 3)
     page= request.GET.get('page')
