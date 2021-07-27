@@ -11,11 +11,11 @@ Features
 
 Instruction
 -----------
-'''python
+<pre><code>
 git clone https://github.com/Man-Zo0/git-sireo.git
 
 pip install -r requirments.txt
-'''
+</code><pre>
 
 Credits
 -------
